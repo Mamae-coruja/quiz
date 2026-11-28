@@ -30,7 +30,7 @@ const CONFIG = {
 APP: 'Mamãe Coruja',
 SLOGAN: 'O app da mãe de primeira viagem',
 DESCRICAO: 'Amamentação, sono, choro, vacinas, consultas e você: o app completo da mãe de primeira viagem.',
-VERSAO: '3.1.0',
+VERSAO: '3.1.1',
 LINK_VENDAS: 'https://mamae-coruja.github.io/',
 ASSINATURA: {
 preco: 'R$ 27 por mês',
@@ -127,7 +127,7 @@ ritualId: 'banho', ritualTxt: 'Ritual da noite',
 },
 diario: {
 tipos: {
-mamada:   { t: 'Mamada', ic: 'peito', timer: true, opcoes: ['Peito esquerdo', 'Peito direito'], alternar: ['Peito esquerdo', 'Peito direito'], on: 'Mamada', off: 'Parar mamada' },
+mamada:   { t: 'Amamentação', ic: 'peito', timer: true, opcoes: ['Peito esquerdo', 'Peito direito'], alternar: ['Peito esquerdo', 'Peito direito'], on: 'Amamentar', off: 'Parar' },
 sono:     { t: 'Sono', ic: 'moon', timer: true, on: 'Dormiu', off: 'Acordou', para: ['mamada'] },
 fralda:   { t: 'Fralda', ic: 'diaper', opcoes: ['Xixi', 'Cocô', 'Xixi e cocô'] },
 mamadeira:{ t: 'Mamadeira', ic: 'bottle', hora: true, opcoes: ['Leite materno', 'Fórmula'], campos: [{ id: 'ml', l: 'Quantidade', u: 'ml', ph: 'ex.: 90', rapidos: [30, 60, 90, 120, 150, 180] }] },
@@ -141,14 +141,14 @@ massagem: { t: 'Massagem', ic: 'spark' },
 medida:   { t: 'Crescimento', ic: 'chart', crescimento: true, campos: [{ id: 'peso', l: 'Peso', u: 'kg', ph: 'ex.: 4,2' }, { id: 'comp', l: 'Comprimento', u: 'cm', ph: 'ex.: 54' }, { id: 'pc', l: 'Perímetro da cabeça', u: 'cm', ph: 'ex.: 37' }] },
 },
 rapido: ['mamada', 'sono', 'fralda', 'mamadeira', 'choro', 'remedio'],
-stats: [{ t: 'Sono', tipo: 'sono', m: 'dur' }, { t: 'Mamadas', tipo: 'mamada', m: 'n' }, { t: 'Fraldas', tipo: 'fralda', m: 'n' }, { t: 'Mamadeira', tipo: 'mamadeira', campo: 'ml', u: 'ml' }, { t: 'Choro', tipo: 'choro', m: 'dur' }, { t: 'Ordenha', tipo: 'ordenha', campo: 'ml', u: 'ml' }],
-grafico: [{ t: 'Sono (horas)', tipo: 'sono', m: 'h' }, { t: 'Mamadas', tipo: 'mamada', m: 'n' }],
+stats: [{ t: 'Sono', tipo: 'sono', m: 'dur' }, { t: 'Amamentação', tipo: 'mamada', m: 'n' }, { t: 'Fraldas', tipo: 'fralda', m: 'n' }, { t: 'Mamadeira', tipo: 'mamadeira', campo: 'ml', u: 'ml' }, { t: 'Choro', tipo: 'choro', m: 'dur' }, { t: 'Ordenha', tipo: 'ordenha', campo: 'ml', u: 'ml' }],
+grafico: [{ t: 'Sono (horas)', tipo: 'sono', m: 'h' }, { t: 'Amamentação', tipo: 'mamada', m: 'n' }],
 },
 noite: { ativo: true, frase: 'Luz baixa, voz baixa. Você está indo bem.', rodape: 'Barriga para cima, berço vazio.', sons: ['branco', 'brahms'],
-botoes: [{ tipo: 'mamada', op: 'Peito esquerdo', l: 'Mamada · esq.' }, { tipo: 'mamada', op: 'Peito direito', l: 'Mamada · dir.' }, { tipo: 'sono' }, { tipo: 'fralda', op: 'Troca', l: 'Fralda' }] },
+botoes: [{ tipo: 'mamada', op: 'Peito esquerdo', l: 'Peito esq.' }, { tipo: 'mamada', op: 'Peito direito', l: 'Peito dir.' }, { tipo: 'sono' }, { tipo: 'fralda', op: 'Troca', l: 'Fralda' }] },
 sos: { titulo: 'SOS do choro', desc: 'Passo a passo para acalmar agora', atalhos: [{ som: 'shhh', l: 'Shhh', ic: 'vol' }, { som: 'branco', l: 'Ruído branco', ic: 'wind' }], ligar: { tel: '192', l: 'Ligar para o SAMU 192' } },
 guiado: { titulo: 'Massagens guiadas', sub: 'só com as mãos', tag: 'Massagem guiada',
-nota: 'Mãos aquecidas, bebê acordado e calmo, longe das mamadas. Se ele chorar, pare. Óleo vegetal puro e sem perfume é opcional, se o pediatra liberar.',
+nota: 'Mãos aquecidas, bebê acordado e calmo, longe da hora de mamar. Se ele chorar, pare. Óleo vegetal puro e sem perfume é opcional, se o pediatra liberar.',
 fim: 'Massagem concluída', fimTxt: 'Que momento bonito entre vocês dois.', registrar: 'Registrar massagem no Diário', evento: 'massagem', rotina: 'massagem' },
 sons: ['branco', 'marrom', 'utero', 'shhh', 'chuva', 'ventilador', 'brahms', 'estrela', 'jacques'],
 sugerir(dias, etapas, regs) {
@@ -168,7 +168,7 @@ if (dias < 30) { const s = Math.max(1, Math.floor(dias / 7)); return { t: `${n} 
 const m = Math.floor(dias / 30.44); return { t: `${n} faz ${m} ${m === 1 ? 'mês' : 'meses'}`, s: fmtD(dkey()) };
 } },
 imprimir: { nome: 'Minha Rotina Impressa',
-ajuda: ['Dar banho e fazer a massagem do ritual', 'Fazer arrotar depois das mamadas', 'Ficar com o bebê para eu dormir 1 hora', 'Cuidar do almoço ou do jantar', 'Lavar ou dobrar as roupinhas', 'Me perguntar como eu estou'],
+ajuda: ['Dar banho e fazer a massagem do ritual', 'Fazer arrotar depois de mamar', 'Ficar com o bebê para eu dormir 1 hora', 'Cuidar do almoço ou do jantar', 'Lavar ou dobrar as roupinhas', 'Me perguntar como eu estou'],
 paginas: ['rotina', 'sos', 'alerta', 'ajuda'] },
 },
 plano: {
@@ -185,17 +185,17 @@ else if (c.janela && c.janela < ref[0] - 10) p.push({ t: 'Talvez ele vá dormir 
 if (c.soneca && c.soneca < 40) p.push({ t: 'Sonecas curtas', x: `As sonecas duram em média ${c.soneca} min. Escureça o quarto, use ruído branco e tente acalmar antes de tirar do berço quando ele acordar cedo demais.`, a: { a: 'som', v: 'branco', l: 'Ruído branco' } });
 if (c.picoExtra !== null && c.picoExtra >= 16 && c.picoExtra <= 22) p.push({ t: 'Antecipe o ritual nos dias difíceis', x: `O choro se concentra por volta das ${c.picoExtra}h. Comece o ritual 30 minutos mais cedo e diminua luz e visitas nesse horário.`, a: { a: 'sos', l: 'SOS do choro' } });
 if (c.dormir && c.dormir > 21 * 60 + 30 && d > 60) p.push({ t: 'Traga a hora de dormir mais para cedo', x: `Ele tem ido dormir por volta das ${fromMin(c.dormir)}. Adiante 15 minutos a cada 3 dias, até perto das 20h30.` });
-if (d <= 42) p.push({ t: 'Fase de adaptação', x: 'Nas primeiras semanas, blocos curtos de sono e mamadas frequentes são esperados. Use o plano como referência, não como regra, e mantenha a livre demanda.' });
+if (d <= 42) p.push({ t: 'Fase de adaptação', x: 'Nas primeiras semanas, blocos curtos de sono e o bebê mamando com frequência são esperados. Use o plano como referência, não como regra, e mantenha a livre demanda.' });
 if (!p.length) p.push({ t: 'Continue assim', x: 'Os números estão dentro do esperado para a idade. Mantenha o ritual da noite e o ambiente escuro.' });
 let hora = c.dormir ? Math.round(c.dormir / 15) * 15 : toMin(S.hora);
 if (hora > 21 * 60 + 30 && d > 60) hora -= 15;
 const acorda = c.acorda ? Math.round(c.acorda / 15) * 15 : 7 * 60;
 const sonecaMin = Math.max(30, Math.min(120, c.soneca || (d <= 60 ? 45 : 60)));
-const ag = [{ h: fromMin(acorda), t: 'Acordar, luz natural e mamada' }];
+const ag = [{ h: fromMin(acorda), t: 'Acordar, luz natural e amamentação' }];
 let t = acorda, n = 1;
 while (t + alvoJan + sonecaMin < hora - alvoJan && n < 7) { t += alvoJan; ag.push({ h: fromMin(t), t: `Soneca ${n} (cerca de ${sonecaMin} min)` }); t += sonecaMin; n++; }
-ag.push({ h: fromMin(hora - 60), t: 'Banho e massagem do ritual' }, { h: fromMin(hora - 30), t: 'Luz baixa, pijama, mamada e canção' }, { h: fromMin(hora), t: 'Berço, de barriga para cima' });
-return { prioridades: p.slice(0, 3), agenda: ag, hora: fromMin(hora), nota: d <= 60 ? 'Horários aproximados. Mamadas continuam em livre demanda.' : 'Horários aproximados. Ajuste aos sinais de sono do seu bebê.',
+ag.push({ h: fromMin(hora - 60), t: 'Banho e massagem do ritual' }, { h: fromMin(hora - 30), t: 'Luz baixa, pijama, amamentação e canção' }, { h: fromMin(hora), t: 'Berço, de barriga para cima' });
+return { prioridades: p.slice(0, 3), agenda: ag, hora: fromMin(hora), nota: d <= 60 ? 'Horários aproximados. A amamentação continua em livre demanda.' : 'Horários aproximados. Ajuste aos sinais de sono do seu bebê.',
 ref: `Referência para a idade: ${ref[0]} a ${ref[1]} min acordado entre os sonos.` };
 },
 },
@@ -211,20 +211,20 @@ const PROG = [
 `Nos próximos 30 dias você recebe uma etapa por dia. Cada uma leva poucos minutos: uma leitura curta e uma ou duas tarefas para colocar em prática.`,
 `A primeira semana é sobre o básico dos primeiros dias em casa: amamentação, coto umbilical, banho, fraldas e sono seguro. Depois vêm o choro, o sono, a saúde do bebê e, na última semana, você.`,
 `> Vá no seu ritmo. Se perder um dia, continue de onde parou. Nada aqui é prova.`,
-`No app você também encontra o diário de mamadas e fraldas, a agenda de vacinas e consultas, os sons para acalmar e o SOS do choro.`],
-tar:[`Registre a próxima mamada no Diário`,`Abra Cuidados e veja a agenda de vacinas e consultas`], m:{a:'agenda',l:'Ver vacinas e consultas'}},
+`No app você também encontra o diário de amamentação e fraldas, a agenda de vacinas e consultas, os sons para acalmar e o SOS do choro.`],
+tar:[`Registre a próxima amamentação no Diário`,`Abra Cuidados e veja a agenda de vacinas e consultas`], m:{a:'agenda',l:'Ver vacinas e consultas'}},
 {t:`A pega certa na amamentação`, f:`Uma boa pega evita dor e ajuda o bebê a mamar bem.`, a:[
 `O Ministério da Saúde recomenda leite materno exclusivo até os 6 meses e junto com outros alimentos até 2 anos ou mais. Nos primeiros dias, o mais importante é a pega.`,
 `## Sinais de uma boa pega`,
 `- Boca bem aberta, como num bocejo`,`- Lábio de baixo virado para fora`,`- Queixo encostado no peito e nariz livre`,`- Aparece mais aréola acima da boca do que abaixo`,`- Bochechas redondas, sem covinhas`,`- Você ouve o bebê engolir`,
-`## Se doer`,`Um incômodo no começo da mamada pode acontecer, mas dor forte ou que continua não é normal. Coloque o dedo mínimo no canto da boca do bebê para soltar e tente de novo. Se a dor continuar, se surgirem rachaduras ou o peito ficar empedrado, procure ajuda: a unidade de saúde ou um Banco de Leite Humano.`,
-`> Leite que sobra no fim da mamada, passado na aréola, ajuda a proteger a pele do mamilo.`],
-tar:[`Confira a pega na próxima mamada com a lista acima`,`Registre a mamada e o peito usado no Diário`]},
+`## Se doer`,`Um incômodo no começo da amamentação pode acontecer, mas dor forte ou que continua não é normal. Coloque o dedo mínimo no canto da boca do bebê para soltar e tente de novo. Se a dor continuar, se surgirem rachaduras ou o peito ficar empedrado, procure ajuda: a unidade de saúde ou um Banco de Leite Humano.`,
+`> Leite que sobra no fim da amamentação, passado na aréola, ajuda a proteger a pele do mamilo.`],
+tar:[`Confira a pega na próxima amamentação com a lista acima`,`Registre a amamentação e o peito usado no Diário`]},
 {t:`Fome, livre demanda e fraldas`, f:`O bebê mostra quando quer mamar, e as fraldas mostram se ele está mamando bem.`, a:[
 `Recém-nascidos costumam mamar de 8 a 12 vezes em 24 horas, sem horário fixo. Isso se chama livre demanda.`,
 `## Sinais de fome (antes do choro)`,`- Leva a mão à boca`,`- Vira a cabeça procurando o peito`,`- Estala os lábios, põe a língua para fora`,`- Fica mais agitado`,
 `> O choro é um sinal tardio de fome. Ofereça o peito antes, nos primeiros sinais.`,
-`## Como saber se está mamando bem`,`- A partir do 5º dia, 6 ou mais fraldas bem molhadas por dia`,`- Cocô amarelado depois da primeira semana`,`- Bebê ativo e satisfeito depois das mamadas`,`- Ganho de peso conferido nas consultas`,
+`## Como saber se está mamando bem`,`- A partir do 5º dia, 6 ou mais fraldas bem molhadas por dia`,`- Cocô amarelado depois da primeira semana`,`- Bebê ativo e satisfeito depois de mamar`,`- Ganho de peso conferido nas consultas`,
 `Na dúvida sobre o ganho de peso, não espere: fale com o pediatra ou a unidade de saúde.`],
 tar:[`Conte as fraldas molhadas de hoje no Diário`,`Observe e anote um sinal de fome do seu bebê`], m:{a:'tab',v:'diario',l:'Abrir o Diário'}},
 {t:`Coto umbilical e banho`, f:`Cuidados simples e seguros.`, a:[
@@ -262,12 +262,12 @@ tar:[`Observe e anote um sinal de sono do seu bebê`,`Registre o próximo sono n
 {t:`Dia é dia, noite é noite`, f:`Ajude o relógio interno a se organizar.`, a:[
 `Recém-nascidos ainda não sabem a diferença entre dia e noite. Você pode ajudar deixando os dois bem diferentes.`,
 `## De dia`,`- Claridade, cortinas abertas`,`- Barulhos normais da casa`,`- Conversa e brincadeira quando ele estiver acordado`,
-`## À noite`,`- Luz baixa e quente, voz baixa`,`- Troca de fralda só se necessário`,`- Nada de brincadeira nas mamadas da madrugada`,
+`## À noite`,`- Luz baixa e quente, voz baixa`,`- Troca de fralda só se necessário`,`- Nada de brincadeira ao amamentar de madrugada`,
 `> Use o Modo Noite do app nas madrugadas: tela escura e botões grandes.`],
-tar:[`Faça as mamadas da noite com luz baixa`], m:{a:'night',l:'Conhecer o Modo Noite'}},
+tar:[`Amamente à noite com luz baixa`], m:{a:'night',l:'Conhecer o Modo Noite'}},
 {t:`O ritual da noite`, f:`Repetição traz segurança.`, a:[
 `Uma sequência curta, feita na mesma ordem todas as noites, vira um sinal de que é hora de desacelerar.`,
-`- Banho morno (opcional)`,`- Massagem com as mãos`,`- Fralda e pijama`,`- Mamada com luz baixa`,`- Canção ou ruído branco`,`- Berço, de barriga para cima`,
+`- Banho morno (opcional)`,`- Massagem com as mãos`,`- Fralda e pijama`,`- Amamentar com luz baixa`,`- Canção ou ruído branco`,`- Berço, de barriga para cima`,
 `O seu ritual já está na rotina da aba Hoje, montado a partir do horário que você escolheu.`],
 tar:[`Faça a massagem guiada do ritual`,`Repita o ritual por 3 noites`], m:{a:'guiado',v:'ritual',l:'Começar a massagem guiada'}},
 {t:`Acolher: enrolar, embalar e o shhh`, f:`Técnicas para os momentos difíceis.`, a:[
@@ -275,9 +275,9 @@ tar:[`Faça a massagem guiada do ritual`,`Repita o ritual por 3 noites`], m:{a:'
 `> Combine duas ou três técnicas ao mesmo tempo e dê alguns minutos para funcionar.`],
 tar:[`Use o som Shhh no próximo choro`], m:{a:'som',v:'shhh',l:'Tocar o Shhh'}},
 {t:`Gases, arroto e cólica`, f:`Entender tira um pouco do peso.`, a:[
-`Faça pausas para arrotar no meio e no fim da mamada: no ombro, sentado no colo apoiando o queixo, ou de bruços sobre as suas pernas.`,
+`Faça pausas para arrotar no meio e no fim da amamentação: no ombro, sentado no colo apoiando o queixo, ou de bruços sobre as suas pernas.`,
 `## Cólica`,`É o choro intenso e difícil de acalmar, geralmente no fim da tarde, em um bebê saudável. Costuma começar entre a 2ª e a 3ª semana e melhorar até os 3 ou 4 meses. Não é culpa sua.`,
-`- Massagem da barriguinha, uma vez por dia, longe das mamadas`,`- Bicicleta com as perninhas`,`- Colo de "tigre no galho", ruído branco e movimento`,
+`- Massagem da barriguinha, uma vez por dia, longe da hora de mamar`,`- Bicicleta com as perninhas`,`- Colo de "tigre no galho", ruído branco e movimento`,
 `> O pediatra deve avaliar para descartar outras causas, principalmente se houver febre, vômitos ou pouco ganho de peso.`],
 tar:[`Teste duas posições de arroto`,`Faça a massagem da barriguinha`], m:{a:'guiado',v:'barriga',l:'Massagem da barriguinha'}},
 {t:`Revisão da semana 2`, f:`O seu jeito, a sua casa.`, a:[
@@ -317,7 +317,7 @@ tar:[`Marque a primeira conquista do seu bebê`], m:{a:'conquistas',l:'Abrir Pri
 `> Nunca sacuda o bebê. Se sentir que está perdendo o controle, chame alguém. Isso é cuidado, não fraqueza.`],
 tar:[`Combine um revezamento com alguém de confiança`], m:{a:'sos',l:'Abrir o SOS do choro'}},
 {t:`Revisão: o diário e a consulta`, f:`O diário lembra o que o cansaço esquece.`, a:[
-`Olhe o Diário: mamadas, fraldas, sono, choro. O Resumo para o pediatra junta os números da semana num texto para mostrar na consulta.`,
+`Olhe o Diário: amamentação, fraldas, sono, choro. O Resumo para o pediatra junta os números da semana num texto para mostrar na consulta.`,
 `Anote também peso e comprimento a cada consulta em Crescimento.`],
 tar:[`Abra o Resumo para o pediatra`,`Faça o check-in da semana`], m:{a:'resumo',l:'Abrir o resumo'}},
 {t:`Seu corpo depois do parto`, f:`Você também está se recuperando.`, a:[
@@ -334,7 +334,7 @@ tar:[`Registre como você está hoje`,`Conte para alguém de confiança como tem
 tar:[`Faça a respiração guiada de 1 minuto`], m:{a:'resp',l:'Respirar por 1 minuto'}},
 {t:`Dividir o cuidado`, f:`Ninguém precisa dar conta sozinha.`, a:[
 `Pedir ajuda funciona melhor quando o pedido é concreto. "Me ajuda" é vago. "Você pode dar o banho hoje?" é claro.`,
-`- Banho e ritual da noite`,`- Fazer arrotar depois das mamadas`,`- Ficar com o bebê enquanto você dorme 1 hora`,`- Cuidar da casa ou da comida por um dia`],
+`- Banho e ritual da noite`,`- Fazer arrotar depois de mamar`,`- Ficar com o bebê enquanto você dorme 1 hora`,`- Cuidar da casa ou da comida por um dia`],
 tar:[`Peça uma ajuda concreta hoje`]},
 {t:`Visitas e passeios`, f:`Carinho, sim. Com cuidado.`, a:[
 `## Visitas`,`- Combine horários e visitas curtas nas primeiras semanas`,`- Todos lavam as mãos antes de pegar o bebê`,`- Quem estiver gripado ou doente fica para depois`,`- Evite beijos no rosto e nas mãos do bebê`,
@@ -349,7 +349,7 @@ tar:[`Observe a sequência de um dia inteiro no Diário`]},
 `> Comece a treinar a ordenha algumas semanas antes de voltar ao trabalho. Os Bancos de Leite Humano orientam de graça.`],
 tar:[`Se for voltar ao trabalho, anote a data e comece a planejar`]},
 {t:`Seu plano para os próximos meses`, f:`O que fica, o que muda.`, a:[
-`Com o crescimento, as janelas de sono aumentam, as mamadas se espaçam, vêm novas vacinas e, por volta dos 6 meses, os primeiros alimentos.`,
+`Com o crescimento, as janelas de sono aumentam, os intervalos para mamar aumentam, vêm novas vacinas e, por volta dos 6 meses, os primeiros alimentos.`,
 `O que continua valendo: ritual, sono seguro, agenda de saúde em dia e uma mãe cuidada.`,
 `> A partir de agora, o Mês a mês acompanha vocês até o primeiro aniversário, liberado pela idade do bebê.`],
 tar:[`Anote 3 coisas que funcionam com o seu bebê`]},
@@ -471,7 +471,7 @@ const GUIADOS = [
 {t:'Braços e mãos', x:'Deslize do ombro até a mão. Abra a mãozinha com o polegar, dedinho por dedinho.', s:50},
 {t:'Rosto', x:'Com a ponta dos dedos, deslize da testa para as têmporas e faça um carinho leve nas sobrancelhas.', s:30},
 {t:'Encerramento', x:'Deixe as mãos paradas na barriguinha e no peito por alguns segundos. Respire fundo junto com ele.', s:20}]},
-{id:'barriga', nome:'Barriguinha (I, L, U)', d:'Para o desconforto dos gases', quando:'Longe das mamadas, uma vez por dia', aviso:'Só depois que o coto umbilical caiu e o umbigo cicatrizou.', passos:[
+{id:'barriga', nome:'Barriguinha (I, L, U)', d:'Para o desconforto dos gases', quando:'Longe da hora de mamar, uma vez por dia', aviso:'Só depois que o coto umbilical caiu e o umbigo cicatrizou.', passos:[
 {t:'Aquecer', x:'Esfregue as mãos para aquecer. Apoie a mão espalmada na barriga do bebê e respire junto com ele.', s:20},
 {t:'Mãos de água', x:'Uma mão depois da outra, deslize de baixo das costelas até o pé da barriga, como água descendo.', s:45},
 {t:'Letra I', x:'No lado esquerdo do bebê (o seu lado direito), deslize a mão de cima para baixo, como um I.', s:30},
@@ -512,7 +512,7 @@ const GUIAS = [
 {id:'amamentacao', t:'Amamentação', d:'Pega, livre demanda e dores', ic:'heart', x:[
 `O Ministério da Saúde recomenda leite materno exclusivo até os 6 meses e junto com outros alimentos até 2 anos ou mais.`,
 `## Boa pega`,`- Boca bem aberta, lábio de baixo virado para fora`,`- Queixo no peito, nariz livre`,`- Mais aréola acima da boca do que abaixo`,
-`## Livre demanda`,`De 8 a 12 mamadas em 24 horas é comum. Ofereça nos primeiros sinais de fome, antes do choro.`,
+`## Livre demanda`,`Mamar de 8 a 12 vezes em 24 horas é comum. Ofereça nos primeiros sinais de fome, antes do choro.`,
 `## Está mamando bem?`,`- 6 ou mais fraldas molhadas por dia a partir do 5º dia`,`- Bebê satisfeito depois de mamar`,`- Ganho de peso conferido nas consultas`,
 `## Quando pedir ajuda`,`Dor forte, rachaduras, peito empedrado, vermelho e quente, febre, ou dúvida sobre o ganho de peso: procure a unidade de saúde ou um Banco de Leite Humano. O atendimento é gratuito.`]},
 {id:'coto', t:'Coto umbilical e banho', d:'Cuidados do dia a dia', ic:'drop', x:[
@@ -545,16 +545,16 @@ const GUIAS = [
 {id:'colica', t:'Cólica', d:'O que é, quanto dura e o que ajuda', ic:'heart', x:[
 `Cólica é o nome dado ao choro intenso e difícil de acalmar, que costuma acontecer no fim da tarde ou à noite, em um bebê saudável e que está crescendo bem.`,
 `## Quanto dura`,`Costuma começar entre a 2ª e a 3ª semana de vida, ficar mais intensa por volta da 6ª semana e melhorar até os 3 ou 4 meses.`,
-`## O que pode trazer conforto`,`- Massagem da barriguinha (I, L, U), uma vez por dia, longe das mamadas`,`- Bicicleta e joelhos ao peito`,`- Colo de "tigre no galho": de bruços sobre o seu antebraço`,`- Ruído branco ou shhh`,`- Movimento suave e contato pele a pele`,`- Pausas para arrotar durante a mamada`,
+`## O que pode trazer conforto`,`- Massagem da barriguinha (I, L, U), uma vez por dia, longe da hora de mamar`,`- Bicicleta e joelhos ao peito`,`- Colo de "tigre no galho": de bruços sobre o seu antebraço`,`- Ruído branco ou shhh`,`- Movimento suave e contato pele a pele`,`- Pausas para arrotar enquanto mama`,
 `## Converse com o pediatra`,`Para confirmar que é cólica e descartar outras causas. Procure atendimento logo se houver febre, vômitos frequentes ou em jato, sangue nas fezes, recusa para mamar ou se o choro for muito diferente do habitual.`,
 `> Não é culpa sua. A cólica passa com o tempo; o que você faz agora é trazer conforto e acolhimento.`]},
 {id:'gases', t:'Gases e arroto', d:'Menos ar engolido, mais conforto', ic:'wind', x:[
-`## Na mamada`,`- Boca bem aberta, lábios virados para fora, queixo encostado no peito`,`- Na mamadeira, mantenha o bico sempre cheio de leite`,`- Bebê mais inclinado, com a cabeça acima da barriga`,
+`## Enquanto mama`,`- Boca bem aberta, lábios virados para fora, queixo encostado no peito`,`- Na mamadeira, mantenha o bico sempre cheio de leite`,`- Bebê mais inclinado, com a cabeça acima da barriga`,
 `## Arroto`,`- No ombro, com tapinhas suaves`,`- Sentado no colo, apoiando o queixo`,`- De bruços sobre as suas pernas`,
 `## Ao longo do dia`,`- Tempo de barriguinha acordado e supervisionado`,`- Bicicleta nas trocas de fralda`,`- Massagem da barriguinha`]},
 {id:'dianoite', t:'Troca do dia pela noite', d:'Ajudando o relógio interno', ic:'sun', x:[
 `Nas primeiras semanas, o bebê ainda não diferencia o dia da noite. Isso costuma se organizar entre 6 e 12 semanas, e você pode ajudar.`,
-`## De dia`,`- Luz natural pela manhã`,`- Barulhos normais da casa nas sonecas`,`- Interação e brincadeiras quando acordado`,`- Não deixe uma soneca passar muito de 2 a 3 horas sem oferecer a mamada (siga a orientação do pediatra)`,
+`## De dia`,`- Luz natural pela manhã`,`- Barulhos normais da casa nas sonecas`,`- Interação e brincadeiras quando acordado`,`- Não deixe uma soneca passar muito de 2 a 3 horas sem oferecer o peito (siga a orientação do pediatra)`,
 `## À noite`,`- Luz baixa e quente, use o Modo Noite`,`- Voz baixa e pouca conversa`,`- Trocas rápidas`,`- O mesmo ritual todas as noites`]},
 {id:'sonecas', t:'Sonecas curtas', d:'Por que acontecem e o que ajuda', ic:'moon', x:[
 `Sonecas de 30 a 45 minutos são comuns nos primeiros meses: é o tamanho de um ciclo de sono do bebê.`,
@@ -562,11 +562,11 @@ const GUIAS = [
 `> Sonecas no colo, no carrinho ou no sling também contam. Uma soneca por dia num lugar fixo já é um ótimo começo.`]},
 {id:'despertares', t:'Acorda muito à noite', d:'Despertares calmos e curtos', ic:'moon', x:[
 `Bebês pequenos acordam à noite para mamar, e isso é necessário. Com o tempo, os intervalos aumentam.`,
-`## Noite sem graça`,`- Luz baixa e pouca conversa`,`- Fralda só se necessário`,`- De volta ao berço logo depois da mamada`,
+`## Noite sem graça`,`- Luz baixa e pouca conversa`,`- Fralda só se necessário`,`- De volta ao berço logo depois de mamar`,
 `## Durante o dia`,`- Sonecas suficientes: bebê muito cansado acorda mais`,`- Ritual de noite sempre igual`,`- Ambiente escuro e ruído branco`,
-`> Antes de reduzir mamadas da noite, converse com o pediatra.`]},
+`> Antes de reduzir o mamar da noite, converse com o pediatra.`]},
 {id:'fimdetarde', t:'Choro do fim do dia', d:'A hora mais difícil', ic:'alert', x:[
-`Muitos bebês ficam mais agitados entre o fim da tarde e o começo da noite. É comum também quererem mamar várias vezes seguidas nesse período (mamadas em grupo).`,
+`Muitos bebês ficam mais agitados entre o fim da tarde e o começo da noite. É comum também quererem mamar várias vezes seguidas nesse período (amamentação em grupo).`,
 `## Como atravessar`,`- Comece o ritual um pouco mais cedo nesses dias`,`- Diminua os estímulos: luz baixa, menos visitas, menos barulho`,`- Sling ou colo com movimento`,`- Shhh ou ruído branco`,`- Reveze com alguém`,
 `> Se você sentir que está no limite, coloque o bebê no berço em segurança e saia do quarto por alguns minutos. Nunca sacuda o bebê.`]},
 {id:'colo', t:'Só dorme no colo', d:'Respeitando a fase, com pequenos passos', ic:'heart', x:[
@@ -582,7 +582,7 @@ const GUIAS = [
 ];
 const ALERTA = [
 `Procure atendimento médico imediatamente se o bebê tiver:`,
-`- Febre (37,8 °C ou mais) em bebê com menos de 3 meses`,`- Dificuldade para respirar, respiração muito rápida ou chiado`,`- Lábios ou pele arroxeados`,`- Moleza, sonolência excessiva ou dificuldade para acordar`,`- Recusa para mamar em várias mamadas seguidas`,`- Vômitos em jato ou frequentes, ou com sangue`,`- Muito menos fraldas molhadas do que o normal`,`- Moleira afundada ou estufada`,`- Convulsão`,`- Pele ou olhos amarelados que aumentam`,`- Choro muito diferente do habitual, que nada acalma`,
+`- Febre (37,8 °C ou mais) em bebê com menos de 3 meses`,`- Dificuldade para respirar, respiração muito rápida ou chiado`,`- Lábios ou pele arroxeados`,`- Moleza, sonolência excessiva ou dificuldade para acordar`,`- Recusa para mamar várias vezes seguidas`,`- Vômitos em jato ou frequentes, ou com sangue`,`- Muito menos fraldas molhadas do que o normal`,`- Moleira afundada ou estufada`,`- Convulsão`,`- Pele ou olhos amarelados que aumentam`,`- Choro muito diferente do habitual, que nada acalma`,
 `> Na dúvida, ligue para o SAMU: 192. Confie no seu instinto.`];
 const FASES = [
 {ate:14,  t:'Primeiros dias', sono:'16 a 18 horas por dia, em blocos curtos', jan:'45 a 60 minutos', mam:'8 a 12 vezes por dia, em livre demanda', x:[
@@ -591,14 +591,14 @@ const FASES = [
 `O bebê fica mais acordado e atento. O choro tende a aumentar, com pico por volta das 6 semanas.`,`- Hora de começar o ritual da noite`,`- O sorriso social costuma aparecer`,`- Consulta de 1 mês e a sua consulta pós-parto`]},
 {ate:90,  t:'2 a 3 meses', sono:'14 a 17 horas por dia', jan:'60 a 90 minutos', mam:'Em livre demanda, intervalos aumentando', x:[
 `Dia e noite começam a se organizar. O bebê sorri, acompanha com o olhar e "conversa".`,`- Vacinas e consulta dos 2 meses`,`- Barriguinha para baixo todos os dias`,`- A cólica costuma começar a diminuir`]},
-{ate:180, t:'3 a 6 meses', sono:'12 a 16 horas por dia (com sonecas)', jan:'1h30 a 2h30', mam:'Ainda pode haver mamadas à noite', x:[
+{ate:180, t:'3 a 6 meses', sono:'12 a 16 horas por dia (com sonecas)', jan:'1h30 a 2h30', mam:'Ainda pode mamar à noite', x:[
 `Sustenta a cabeça, ri, pega objetos e começa a rolar. O sono pode mudar por volta dos 4 meses.`,`- Vacinas dos 3, 4 e 5 meses`,`- Pare de enrolar quando ele tentar rolar`,`- O módulo Sono de 4 a 12 meses aprofunda esta fase`]},
 {ate:99999, t:'6 meses ou mais', sono:'12 a 16 horas por dia (com sonecas)', jan:'2 a 3 horas', mam:'Leite + primeiros alimentos, com o pediatra', x:[
 `Começam os primeiros alimentos, com orientação do pediatra. Senta, balbucia e logo engatinha.`,`- Vacinas dos 6 e 9 meses`,`- Casa segura: tomadas, quinas, escadas`,`- Ritual continua sendo seu melhor aliado`]},
 ];
 const SOS = [
 {t:'Respire primeiro', x:'Solte o ar devagar. Bebês sentem a nossa tensão. Você está fazendo o seu melhor.'},
-{t:'Fome?', x:'Quando foi a última mamada? Procura o peito, leva a mão à boca, estala os lábios? Ofereça.'},
+{t:'Fome?', x:'Quando ele mamou pela última vez? Procura o peito, leva a mão à boca, estala os lábios? Ofereça.'},
 {t:'Fralda?', x:'Cocô ou fralda muito molhada incomodam. Troque com luz baixa.'},
 {t:'Calor ou frio?', x:'Toque a nuca ou o peito, não as mãos. Suado: tire uma camada. Gelado: acrescente.'},
 {t:'Gases?', x:'Tente arrotar no ombro. Faça a bicicleta com as perninhas.', a:{a:'guiado',v:'bicicleta',l:'Bicicleta guiada'}},
@@ -608,7 +608,7 @@ const SOS = [
 {t:'Sinais de alerta', x:'Febre em bebê com menos de 3 meses, dificuldade para respirar, moleza ou choro muito diferente: procure atendimento. SAMU 192.', a:{a:'alerta',l:'Ver sinais de alerta'}},
 ];
 const DICAS = [
-`Ofereça o peito nos primeiros sinais de fome, antes do choro.`,`A partir do 5º dia, 6 ou mais fraldas molhadas por dia é um bom sinal.`,`Limpe a base do coto com álcool 70% a cada troca de fralda.`,`Toque a nuca para saber se o bebê está com calor ou frio.`,`Sono seguro: barriga para cima, berço vazio.`,`Leve a caderneta em toda consulta e vacina.`,`Anote as dúvidas no celular para a próxima consulta.`,`Febre em bebê com menos de 3 meses: procure atendimento.`,`Pausas para arrotar no meio da mamada podem evitar desconforto.`,`Claridade de dia e luz baixa à noite ajudam o relógio do bebê.`,`Tempo de barriguinha: pouco e várias vezes ao dia.`,`Converse com o seu bebê: ele aprende ouvindo você.`,`Peça ajuda de forma concreta: "você pode dar o banho hoje?"`,`Beba um copo de água toda vez que amamentar.`,`Colo não acostuma mal: é necessidade nos primeiros meses.`,`Visitas lavam as mãos antes de pegar o bebê.`,`Bebês com menos de 6 meses não devem ficar no sol direto.`,`O ritual da noite funciona pela repetição, não pela perfeição.`,`Shhh no volume do choro, e vai baixando quando ele acalma.`,`Durma em pelo menos uma soneca do bebê por dia.`,`Marque a consulta pós-parto: ela é sua.`,`Mamadas em grupo no fim do dia são comuns e passam.`,`Movimentos pequenos e suaves acalmam mais que balanços grandes.`,`Massagem longe das mamadas: espere uns 30 minutos.`,`Pare de enrolar quando o bebê começar a tentar rolar.`,`Cada bebê tem o seu ritmo. Compare menos, observe mais.`,`Contato pele a pele acalma o bebê e você.`,`Você não precisa fazer tudo. Precisa fazer o possível.`,`Bancos de Leite Humano ajudam com a amamentação de graça.`,`Leite ordenhado: até 12 horas na geladeira.`];
+`Ofereça o peito nos primeiros sinais de fome, antes do choro.`,`A partir do 5º dia, 6 ou mais fraldas molhadas por dia é um bom sinal.`,`Limpe a base do coto com álcool 70% a cada troca de fralda.`,`Toque a nuca para saber se o bebê está com calor ou frio.`,`Sono seguro: barriga para cima, berço vazio.`,`Leve a caderneta em toda consulta e vacina.`,`Anote as dúvidas no celular para a próxima consulta.`,`Febre em bebê com menos de 3 meses: procure atendimento.`,`Pausas para arrotar no meio da amamentação podem evitar desconforto.`,`Claridade de dia e luz baixa à noite ajudam o relógio do bebê.`,`Tempo de barriguinha: pouco e várias vezes ao dia.`,`Converse com o seu bebê: ele aprende ouvindo você.`,`Peça ajuda de forma concreta: "você pode dar o banho hoje?"`,`Beba um copo de água toda vez que amamentar.`,`Colo não acostuma mal: é necessidade nos primeiros meses.`,`Visitas lavam as mãos antes de pegar o bebê.`,`Bebês com menos de 6 meses não devem ficar no sol direto.`,`O ritual da noite funciona pela repetição, não pela perfeição.`,`Shhh no volume do choro, e vai baixando quando ele acalma.`,`Durma em pelo menos uma soneca do bebê por dia.`,`Marque a consulta pós-parto: ela é sua.`,`Querer mamar várias vezes seguidas no fim do dia é comum e passam.`,`Movimentos pequenos e suaves acalmam mais que balanços grandes.`,`Massagem longe da hora de mamar: espere uns 30 minutos.`,`Pare de enrolar quando o bebê começar a tentar rolar.`,`Cada bebê tem o seu ritmo. Compare menos, observe mais.`,`Contato pele a pele acalma o bebê e você.`,`Você não precisa fazer tudo. Precisa fazer o possível.`,`Bancos de Leite Humano ajudam com a amamentação de graça.`,`Leite ordenhado: até 12 horas na geladeira.`];
 const FRASES = [
 `Você é exatamente a mãe que o seu bebê precisa.`,`Dias difíceis não fazem de você uma mãe pior.`,`Descansar também é cuidar do bebê.`,`Está tudo bem não saber tudo.`,`Um passo de cada vez. Uma noite de cada vez.`,`Pedir ajuda é um ato de amor.`,`O seu colo é o lugar favorito dele no mundo.`,`Você está aprendendo, e ele também.`,`Respire. Isso também vai passar.`,`O que você faz hoje é invisível, mas é enorme.`,`Seja gentil com você como é com ele.`,`Não existe mãe perfeita. Existe mãe presente.`,`A sua intuição vale muito.`,`Cuidar de si não é egoísmo.`,`Você já atravessou noites difíceis antes.`,`Seu cansaço é real. Sua força também.`,`Hoje, o suficiente é suficiente.`,`Você não está sozinha.`,`Cada choro acolhido constrói confiança.`,`Você merece o mesmo carinho que oferece.`];
 const ROTINA = [
@@ -654,8 +654,8 @@ const MODULOS = [
 `As sonecas mudam bastante neste período: de 3 a 4 por dia aos 4 meses para 2 por volta dos 7 a 9 meses.`,
 `## Sinais de que é hora de cortar uma soneca`,`- Demora muito para dormir em uma das sonecas`,`- A última soneca empurra a hora de dormir para muito tarde`,`- Por 1 a 2 semanas, não num dia isolado`,
 `## Para sonecas mais longas`,`- Quarto escuro e ruído branco`,`- Respeitar a janela de sono`,`- Tentar acalmar antes de tirar do berço quando acorda cedo demais`]},
-{t:'Despertares e mamadas noturnas', x:[
-`Muitos bebês ainda precisam mamar à noite neste período. Antes de reduzir mamadas noturnas, converse com o pediatra sobre o ganho de peso.`,
+{t:'Despertares e o mamar da noite', x:[
+`Muitos bebês ainda precisam mamar à noite neste período. Antes de reduzir o mamar da noite, converse com o pediatra sobre o ganho de peso.`,
 `## Fome ou hábito?`,`- Fome: mama bem, com vontade, e volta a dormir`,`- Hábito: mama pouco, só para adormecer, e acorda em horários fixos`,
 `## Resposta consistente`,`- Espere um instante antes de intervir: às vezes ele volta a dormir sozinho`,`- Luz baixa, pouca conversa`,`- Se não for hora de mamar, acalme no berço com mão e voz`]},
 {t:'Viagens, dentes, doenças e fases', x:[
@@ -703,7 +703,7 @@ itens: ['Média de sono, sonecas e tempo acordado do seu bebê', 'Comparação c
 };
 const NORMAL_CATS = [
 ['pele', 'Pele', '#E07399'], ['coco', 'Cocô e xixi', '#E0A23B'], ['resp', 'Respiração e sons', '#4F9BD9'],
-['sono', 'Sono', '#6C7FD8'], ['mama', 'Mamada', '#3FA7A0'], ['corpo', 'Corpo', '#7A64BD'],
+['sono', 'Sono', '#6C7FD8'], ['mama', 'Amamentação', '#3FA7A0'], ['corpo', 'Corpo', '#7A64BD'],
 ];
 const NORMAL = [
 {c:'pele', q:'Manchinhas vermelhas com um pontinho no meio', r:'É o eritema tóxico, muito comum nos primeiros dias. Não é alergia nem infecção.', f:'Não precisa passar nada. Some sozinho em 1 a 2 semanas.', p:'Se aparecerem bolhas com pus, ou se o bebê tiver febre ou estiver abatido.'},
@@ -711,7 +711,7 @@ const NORMAL = [
 {c:'pele', q:'Pontinhos brancos no nariz', r:'São as mílias, pequenas bolinhas de queratina. Muito comuns.', f:'Não esprema. Somem sozinhas nas primeiras semanas.', p:'Não costuma precisar de nada.'},
 {c:'pele', q:'A pele está descascando', r:'Normal nas primeiras semanas, principalmente em bebês que nasceram depois de 40 semanas.', f:'Banho curto e, se quiser, um hidratante próprio para bebês, sem perfume.', p:'Se aparecerem rachaduras que sangram ou vermelhidão forte.'},
 {c:'pele', q:'Casquinha amarelada na cabeça', r:'É a crosta láctea (dermatite seborreica). Comum e não incomoda o bebê.', f:'Passe um óleo ou hidratante infantil antes do banho e solte com uma escova bem macia, sem arrancar.', p:'Se a vermelhidão se espalhar, coçar muito ou formar feridas.'},
-{c:'pele', q:'A pele ficou amarelada', r:'A icterícia é comum entre o 2º e o 5º dia de vida, mas sempre precisa ser avaliada.', f:'Avise o pediatra para ele decidir se precisa de exame. Mamadas frequentes ajudam.', p:'Procure atendimento no mesmo dia se o amarelo surgir nas primeiras 24 horas, chegar à barriga ou às pernas, se o bebê estiver muito sonolento, mamando mal ou com cocô esbranquiçado.', u:true},
+{c:'pele', q:'A pele ficou amarelada', r:'A icterícia é comum entre o 2º e o 5º dia de vida, mas sempre precisa ser avaliada.', f:'Avise o pediatra para ele decidir se precisa de exame. Amamentar com frequência ajuda.', p:'Procure atendimento no mesmo dia se o amarelo surgir nas primeiras 24 horas, chegar à barriga ou às pernas, se o bebê estiver muito sonolento, mamando mal ou com cocô esbranquiçado.', u:true},
 {c:'pele', q:'Mancha azulada nas costas ou no bumbum', r:'É a mancha mongólica, uma pigmentação da pele. Não é roxo de pancada.', f:'Nada a fazer. Clareia com os anos.', p:'Não costuma precisar de nada.'},
 {c:'pele', q:'Mancha vermelha na nuca ou nas pálpebras', r:'É a mancha salmão, pequenos vasinhos da pele. Fica mais forte quando o bebê chora.', f:'Nada a fazer. As do rosto costumam sumir no primeiro ano.', p:'Se a mancha crescer ou ficar em relevo.'},
 {c:'pele', q:'Assadura', r:'Muito comum, causada pela umidade e pelo contato com xixi e cocô.', f:'Troque a fralda com frequência, limpe com água, deixe secar bem e use pomada de barreira.', p:'Se tiver bolhas, feridas, pontinhos vermelhos nas dobras ou não melhorar em 3 dias.'},
@@ -721,7 +721,7 @@ const NORMAL = [
 {c:'coco', q:'Cocô verde', r:'A cor varia bastante e o verde costuma ser só uma variação normal.', f:'Observe se o bebê está bem, mamando e ganhando peso.', p:'Se tiver muco ou sangue, se vier com febre ou se o bebê estiver abatido.'},
 {c:'coco', q:'Ficou dias sem fazer cocô', r:'Depois do primeiro mês, bebês que mamam só no peito podem ficar vários dias sem evacuar, e o cocô sai mole.', f:'Se ele está bem, mamando e o cocô sai mole, não é prisão de ventre.', p:'Se for nas primeiras semanas de vida, se o cocô sair duro, a barriga ficar estufada ou houver vômito.'},
 {c:'coco', q:'Faz força e fica vermelho para evacuar', r:'Ele ainda está aprendendo a coordenar a barriga e o bumbum. Chama-se disquezia.', f:'Se o cocô sai mole, não precisa fazer nada. Bicicletinha com as pernas pode ajudar.', p:'Se o cocô sair duro ou com sangue.'},
-{c:'coco', q:'Manchinha cor de tijolo na fralda', r:'São cristais de urato, que podem aparecer nos primeiros dias.', f:'Ofereça mamadas frequentes.', p:'Avise o pediatra se aparecer depois da primeira semana: pode ser sinal de que ele está mamando pouco.'},
+{c:'coco', q:'Manchinha cor de tijolo na fralda', r:'São cristais de urato, que podem aparecer nos primeiros dias.', f:'Ofereça o peito com frequência.', p:'Avise o pediatra se aparecer depois da primeira semana: pode ser sinal de que ele está mamando pouco.'},
 {c:'coco', q:'Um pouco de sangue ou secreção na vagina da recém-nascida', r:'É efeito dos hormônios da mãe e acontece na primeira semana.', f:'Limpe com água, da frente para trás.', p:'Se continuar depois da primeira semana.'},
 {c:'coco', q:'Poucas fraldas molhadas', r:'A partir do 5º dia, o esperado é 6 ou mais fraldas molhadas por dia.', f:'Registre as fraldas no Diário para ter certeza.', p:'Procure o pediatra se forem menos de 6 por dia a partir do 5º dia, ou se o xixi estiver escuro e com cheiro forte.', u:true},
 {c:'resp', q:'Respira rápido e faz pausas', r:'É a respiração periódica do recém-nascido: acelera, desacelera e faz pausas curtas, de menos de 10 segundos.', f:'Observe com calma. Sono de barriga para cima, no berço, sem travesseiro e sem objetos.', p:'Ligue 192 se a pausa passar de 20 segundos, se os lábios ficarem roxos, se ele gemer a cada respiração ou se as costelas afundarem ao respirar.', u:true},
@@ -736,7 +736,7 @@ const NORMAL = [
 {c:'mama', q:'Golfa depois de mamar', r:'A regurgitação é muito comum, porque a válvula do estômago ainda está amadurecendo.', f:'Faça arrotar, mantenha em pé por 20 a 30 minutos e evite apertar a barriga.', p:'Se for vômito em jato, verde ou com sangue, se ele não ganhar peso ou recusar mamar.'},
 {c:'mama', q:'Quer mamar toda hora', r:'Acontece nos saltos de crescimento, por volta de 2 a 3 semanas, 6 semanas e 3 meses. Mamar muito é o jeito dele aumentar a sua produção.', f:'Ofereça em livre demanda, beba água e peça ajuda com o resto da casa.', p:'Se ele não estiver ganhando peso ou molhando poucas fraldas.'},
 {c:'mama', q:'Perdeu peso na primeira semana', r:'É esperado perder até cerca de 10% do peso do nascimento nos primeiros dias.', f:'O peso costuma voltar ao do nascimento em até 2 semanas. Anote o peso de cada consulta.', p:'O pediatra acompanha nas primeiras consultas. Avise se ele estiver mamando mal.'},
-{c:'mama', q:'Meu bico está machucado', r:'Um pouco de sensibilidade no começo é comum, mas dor forte e rachaduras costumam ser sinal de pega errada.', f:'Confira a pega: boca bem aberta, lábios virados para fora, mais aréola na boca por baixo. Passe o próprio leite no bico depois da mamada.', p:'Procure um Banco de Leite Humano ou uma consultora de amamentação. Se a mama ficar vermelha, quente e você tiver febre, procure atendimento.'},
+{c:'mama', q:'Meu bico está machucado', r:'Um pouco de sensibilidade no começo é comum, mas dor forte e rachaduras costumam ser sinal de pega errada.', f:'Confira a pega: boca bem aberta, lábios virados para fora, mais aréola na boca por baixo. Passe o próprio leite no bico depois de amamentar.', p:'Procure um Banco de Leite Humano ou uma consultora de amamentação. Se a mama ficar vermelha, quente e você tiver febre, procure atendimento.'},
 {c:'corpo', q:'A moleira pulsa', r:'A moleira é coberta por uma membrana firme e acompanha os batimentos. É normal tocar com delicadeza.', f:'Nada a fazer.', p:'Procure atendimento se a moleira estiver muito afundada (pode ser desidratação) ou estufada com febre ou irritação.', u:true},
 {c:'corpo', q:'Os olhos às vezes ficam vesgos', r:'Comum nos primeiros meses, enquanto os músculos dos olhos se coordenam.', f:'Observe ao longo dos meses.', p:'Se for o tempo todo, ou se continuar depois dos 4 a 6 meses.'},
 {c:'corpo', q:'Olho com remela ou lacrimejando', r:'O canal da lágrima pode estar estreito, o que é comum nos primeiros meses.', f:'Limpe com gaze e soro fisiológico, do canto de dentro para fora.', p:'Se o olho ficar vermelho, inchado ou com muita secreção.'},
@@ -757,7 +757,7 @@ const PERG_SUG = [
 const AJUDA_TAREFAS = [
 'Segurar o bebê para eu tomar um banho com calma', 'Ficar com o bebê para eu dormir 2 horas seguidas', 'Fazer o almoço ou o jantar',
 'Lavar a louça', 'Lavar e dobrar as roupinhas', 'Ir ao mercado ou à farmácia', 'Arrumar a casa', 'Trazer água e um lanche enquanto eu amamento',
-'Fazer o arroto e a troca depois da mamada da madrugada', 'Ir comigo à consulta do pediatra', 'Ficar com o bebê enquanto eu saio 30 minutos', 'Só sentar comigo e me ouvir um pouco',
+'Fazer o arroto e a troca depois de mamar de madrugada', 'Ir comigo à consulta do pediatra', 'Ficar com o bebê enquanto eu saio 30 minutos', 'Só sentar comigo e me ouvir um pouco',
 ];
 const AJUDA_PARA = [['parceiro', 'Parceiro(a)'], ['mae', 'Minha mãe'], ['sogra', 'Sogra'], ['amiga', 'Amiga'], ['familia', 'Família']];
 const MSG_VISITAS = `Oi! Estamos muito felizes de apresentar o bebê 💛
@@ -783,7 +783,7 @@ const POSPARTO = [
 `> Dirigir, exercícios e relações sexuais: combine com a sua médica quando voltar.`]},
 {t:'Mamas', ic:'peito', x:[
 `Entre o 3º e o 5º dia o leite "desce" e as mamas podem ficar cheias e duras.`,
-`- Amamente com frequência e esvazie bem uma mama antes de trocar`,`- Se estiver muito cheia, retire um pouco de leite antes para o bebê conseguir pegar`,`- Compressas frias entre as mamadas aliviam o inchaço`,
+`- Amamente com frequência e esvazie bem uma mama antes de trocar`,`- Se estiver muito cheia, retire um pouco de leite antes para o bebê conseguir pegar`,`- Compressas frias entre uma amamentação e outra aliviam o inchaço`,
 `> Mama vermelha, quente, dolorida e febre podem ser mastite: procure atendimento.`]},
 {t:'Emoções: baby blues ou algo mais?', ic:'wind', x:[
 `## Baby blues`,`Até 8 em cada 10 mães sentem choro fácil, irritação e insegurança nos primeiros dias. Costuma passar sozinho em até 2 semanas, com descanso e apoio.`,
@@ -1763,7 +1763,7 @@ function sGuia(id) { const g = GUIAS.find(x => x.id === id); if (!g) return ['',
 function sAlerta() { const l = NICHO.sos && NICHO.sos.ligar; return [TX.alertaTitulo, `<h1>${esc(TX.alertaTitulo)}</h1><div class="card lesson mt">${md(ALERTA)}</div>${l ? `<a class="btn" href="tel:${l.tel}">${ic('phone', 's')} ${esc(l.l)}</a>` : ''}`]; }
 function sFase() {
 const f = fase();
-const linhas = (f.dados || [['moon', 'Sono', f.sono], ['clock', 'Tempo acordado', f.jan], ['bottle', 'Mamadas', f.mam]]).filter(x => x[2]);
+const linhas = (f.dados || [['moon', 'Sono', f.sono], ['clock', 'Tempo acordado', f.jan], ['bottle', 'Amamentação', f.mam]]).filter(x => x[2]);
 let h = `<span class="tag sal">${S.perfil.nasc ? esc([nomeBebe(), idadeTxt()].filter(Boolean).join(' · ')) : 'Fase'}</span><h1 class="mt">${esc(f.t)}</h1><div class="card mt">${linhas.map(([i, l, v], j) => `<div class="li"><span class="ico ${['', 'sal', 'are'][j % 3]}">${ic(i)}</span><div><div class="d">${esc(l)}</div><div class="t">${esc(v)}</div></div></div>`).join('')}</div><div class="card lesson">${md(f.x)}</div><p class="xs mut">Médias de referência. Cada pessoa tem o seu ritmo.</p>`;
 h += `<div class="sec"><h3>Todas as fases</h3></div><div class="card">${FASES.map(x => `<div class="li"><span class="ico ${x === f ? '' : 'are'}">${ic(x === f ? 'star' : 'clock', 's')}</span><div class="grow"><div class="t">${esc(x.t)}</div><div class="d">${esc(x.sono || x.resumo || '')}</div></div></div>`).join('')}</div>`;
 return ['Fase', h];
